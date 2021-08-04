@@ -2,6 +2,7 @@
 # 测试记录：
 # 5-10，SH2,OK
 # 5-18,SZ,OK
+# 7-9,SZ,SH双工厂OK。可正式启用
 
 import pandas as pd
 from Field_Tools import *
@@ -354,4 +355,4 @@ def GetSheet_sfg():
     print('Pls check SFG_Upload.xlsx')
 
 # GenaTemp()
-GetSheet_sfg()
+# GetSheet_sfg()

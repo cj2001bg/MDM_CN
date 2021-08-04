@@ -512,7 +512,7 @@ def FGHanaFields2():
                     'Material':	'Material',
                     'Category':	'Category',
                     'Net. Decl. Weight':	'Net Decl. Weight',
-                    'Weight Per Piece':	'Weight per Piece',
+                    # 'Weight Per Piece':	'Weight per Piece',
                     'Num Piece per Pack':	'Num Piece per Pack',
                     'Segment':	'Segment',
                     'Subsegment':	'Sub Segment',
@@ -534,8 +534,8 @@ def FGHanaFields2():
                     }
     return fgHanaFields2
 
-# FG PAF-HANA字段对应for copy
-def Paf_hana1():
+# # FG PAF-HANA字段对应for copy
+# def Paf_hana1():
     paf_hana = {
                 'Material':'New SKU Code',
                 'Category':'Category',
@@ -552,49 +552,84 @@ def Paf_hana1():
                 }
     return paf_hana
 
-# FG HANA Report字段列表
+# FG HANA Report字段列表(完整版)
 def Hana_list():
     hana_list = [
-                'Status',
                 'Source System',
-                'Material Type',
                 'Material',
+                'Material Type',
+                'Sales Item',
                 'Description Short',
-                'Description Long',
-                'EAN Code',
                 'Category',
-                'Segment',
-                'Sub Segment',
                 'Brand',
                 'Sub Brand / Range',
-                'NPD',
-                'Factory Production',
-                'Factory Packing',
-                'Net Decl. Weight',
-                'Calculation Weight',
-                'Weight per Piece',
-                'Pack Size Grms Nielsen',
-                'Num Piece per Pack',
-                'Manuf. Type',
-                'Coating',
-                'Filling',
-                'Sugar Content',
-                'Prod Base Type',
-                'Base Type Prop.',
-                'Prod Tech Group',
-                'Prod Tech Type',
-                'First Selling OC',
-                'First Invoice Date - Date',
+                'Private Label Brand - Desc',
+                'Better For You Claim',
+                'Segment',
+                'Sub Segment',
                 'Single Piece Wrapper',
                 'Primary Pack Type',
+                'Net Decl. Weight',
+                'Net Declared Weight UOM',
                 'Secondary Pack Type',
+                'Secondary Pack Type Inner Quantity',
+                'Base UOM for Quantity Configuration',
+                'BUOM Inner Quantity',
+                'Num Piece per Pack',
                 'Additional Packaging Remark',
+                'Quantity Configuration',
                 'Flavour Group',
                 'Flavour',
-                'Count Material',
+                'Manuf. Type',
+                'Factory Production',
+                'Factory Packing',
+                'Procurement Group 1 - Desc.',
+                'Procurement Group 2 - Desc.',
+                'Procurement Group 3 - Desc.',
+                'Conversion BUOM to Std.UOM',
+                'Std.UOM',
+                'First Selling OC - Desc.',
+                'EAN Code',
+                'Launch Date - Date',
+                'Description Long',
+                'Update Status',
+                'Changed On - Date',
+                'Changed By',
+                'Created On - Date',
+                'Created By',
                 'DQ Status'
                 ]
     return hana_list
+
+# FG HANA 字段列表(网页版)
+def Hana2_list():
+    hana2_list = [
+                'Material Number',
+                'Short Description',
+                'EAN',
+                'Category',
+                'Primary pack type',
+                'Net. Decl. Weight',
+                'Net. Decl. Weight UoM',
+                'Num Piece per Pack',
+                'Single Piece Wrapper',
+                'Secondary Pack Type',
+                'Sec.Pack Type Inn.Qty',
+                'Base UoM - Hana',
+                'Base UoM Inn.Qty',
+                'Additional pack remark',
+                'Brand',
+                'Sub Brand',
+                'Segment',
+                'Subsegment',
+                'Flavour Group',
+                'Flavour',
+                'Better For You Claim',
+                'Manufacturing Type',
+                'Fact Prod',
+                'Fact Pack'
+                ]
+    return hana2_list
 
 # R/PM SAP_class字段列表
 def rpm_class_list():
@@ -606,6 +641,8 @@ def rpm_class_list():
         'Category 2',
         'Category 3',
         'Material structure',
-        'Material structure 2'
+        'Material structure 2',
+        'Spec Code',
+        'Recyclable Plastic Material'
     ]
     return rpm_class_list

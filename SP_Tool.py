@@ -1,5 +1,6 @@
 # ID之SP物料整理
 # 5-18,SH & SZ,OK
+# 20210715,正式使用
 
 import pandas as pd
 from Field_Tools import *
@@ -285,4 +286,4 @@ def GetSheet_sp():
     print('Please check SP_upload.xlsx')
 
 # GenaTemp()
-GetSheet_sp()
+# GetSheet_sp()

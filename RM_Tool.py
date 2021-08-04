@@ -1,5 +1,7 @@
 # NPD 整理
 # 5-20,SZ,OK
+# 7-15,SH,OK
+# 20210715,正式使用
 
 import pandas as pd
 from Field_Tools import *
@@ -289,4 +291,4 @@ def GetSheet_rm():
     print('Pls check RM_Upload.xlsx')
 
 # GenaTemp()
-GetSheet_rm()
+# GetSheet_rm()

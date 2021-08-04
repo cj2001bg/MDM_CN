@@ -1,6 +1,7 @@
 # NPD PM整理
-# 5-18,SZ,OK
-# 5-20,SH1,SH2,OK
+# 7-12,新增Gross Weight,Net Weitht,Spec code, Recyclable Plastic Material整理
+# 5-18,SZ,OK     5-20,SH1,SH2,OK        7-13,新增字段测试OK
+# 7-13，正式使用
 
 import pandas as pd
 from Field_Tools import *
@@ -17,6 +18,8 @@ def copy_value(df11,df1):
                 'Material Group':'物料类型',
                 'Old Material Number':'替换哪个原有材料',
                 'Material Group: Packaging Materials':'包材物料组',
+                'Gross Weight':'Packaging Material Total Weight(g)',
+                'Net Weight':'Plastic Material Weight(g)',
                 'Basic Material':'物料类型',
                 'Country of Origin':'原产地',
                 'Purchasing Group':'采购组',
@@ -48,7 +51,7 @@ def fix_value(df1):
     # 字段关系
     f_dict = {
                    'Industry Sector':'S',
-                    'Weight Unit':'KG',
+                    'Weight Unit':'G',
                     'Class Type':'022',
                     'Class':'FIFO_BATCH',
                     'General Item Category Group':'NORM',
@@ -300,7 +303,9 @@ def copy_value4(df11,df4):
     f_dict = {
                 'Material':'PM Code',
                 'Category 1':'Procurement group1',
-                'Category 2':'Procurement group2'
+                'Category 2':'Procurement group2',
+                'Spec Code':'包装规格标准号',
+                'Recyclable Plastic Material':'Recyclable Plastic Material'
                 }
     for k,v in f_dict.items():
         df4[k] = df11[v]
@@ -330,13 +335,9 @@ def convert_value(df11,df4):
         # 取左边值，给原来的列
         df4[a] = df00[0]
 
-    # 合并Material structure
-    # 如果一列为空，另一列不为空，合并后结果为空。需要在合并之前多NA的做预处理
-    df11 = df11.fillna(value=' ')
-    # 将合并结果临时放在df11新列的MS中
-    df11['MS'] = df11['包装规格标准号'] + '/' + df11['Material Structure']
-    df4['Material structure'] = df11['MS'].str.slice(0,30)
-    df4['Material structure 2'] = df11['MS'].str.slice(31,60)
+    # Material structure
+    df4['Material structure'] = df11['Material Structure'].str.slice(0,30)
+    df4['Material structure 2'] = df11['Material Structure'].str.slice(31,60)
 
     # 删除重复行
     df4.drop_duplicates(inplace=True)
@@ -471,4 +472,4 @@ def GetSheet_pm():
     print('Please check PM_Upload.xlsx')
 
 # GenaTemp()
-GetSheet_pm()
+# GetSheet_pm()

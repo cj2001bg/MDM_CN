@@ -1,4 +1,6 @@
 # POP 整理
+# 7-15,OK
+# 20210715,正式使用
 
 import pandas as pd
 from Field_Tools import *
@@ -173,4 +175,4 @@ def GetSheet_pop():
     print('Please check POP_Upload.xls')
 
 # GenaTemp()
-GetSheet_pop()
+# GetSheet_pop()
