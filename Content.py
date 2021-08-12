@@ -9,6 +9,7 @@ from SFG_Tool import GetSheet_sfg
 from RM_Tool import GetSheet_rm
 from FGHM_Tool import FGHM_main
 from HANA_Tool import GetSheet_fghana
+from BC_Tool import GetSheet_bc
 
 while True:
     text1 = '''请翻牌子
@@ -20,6 +21,7 @@ while True:
                 7. FG(HT)物料整理
                 8. FGHANA 整理检查
                 9. POP 整理
+                10.BC整理
                 XX.敬请期待...
     '''
     print('===========我是分割线=============')
@@ -51,6 +53,9 @@ while True:
     elif res == '9':
         GetSheet_pop()
         time.sleep(2)    
+    elif res == '10':
+        GetSheet_bc()
+        time.sleep(2)  
 
     else:
         print('程序退出。')
