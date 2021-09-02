@@ -1,6 +1,6 @@
 # 小工具集合
 import pandas as pd
-import os,csv
+import os,csv,pprint
 
 # 连接多个表数据
 def combine():
@@ -108,7 +108,7 @@ def split_column():
     df = pd.read_excel('DataSource.xlsx',sheet_name='Sheet1',index_col=0)
     df = df['k'].str.split('-',expand=True)
 
-    writer = pd.ExcelWriter('ouput.xlsx')
+    writer = pd.ExcelWriter('output.xlsx')
     df.to_excel(writer,'df')
     writer.save()
     print('Check Output.xlsx')
@@ -313,7 +313,7 @@ def doc_list():
     # 输入路径
     path = r'D:\PCN-JACN\Python\CN\Form'
     names = os.listdir(path)
-    print(names)
+    # pprint.pprint(names)
 
     # 写入Output文档
     with open('Doclist.csv','w',newline='',encoding='utf-8') as f:

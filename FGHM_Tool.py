@@ -155,11 +155,13 @@ def option_value_I(df11,df1):
             df1.at[i,'Default Storage Location'] = '0001'
         
         # Minimum Remaining Shelf Life
-        df1.at[i,'Minimum Remaining Shelf Life'] = df1.at[i,'Total Shelf Life'] // 2
+        # df1.at[i,'Minimum Remaining Shelf Life'] = df1.at[i,'Total Shelf Life'] // 2
+        shelf = df1.at[i,'Total Shelf Life']
+        df1.at[i,'Minimum Remaining Shelf Life'] = float(shelf) // 2
 
         # 规则检查
         vol = df1.at[i,'Volume']
-        df1.at[i,'Volume']= round(vol,3)
+        df1.at[i,'Volume']= round(float(vol),3)
 
         mg = df1.at[i,'Material Group']
         if int(mg) > 71:
@@ -572,13 +574,13 @@ def fix_value3(df11,df2):
                 df1.at[i,'EAN CAT'] = 'C7'
             elif df1.at[i,'Alternative UOM'] == 'PDW':
                 w1 = df11.at[i,'实际净重（公斤/箱）']
-                df1.at[i,'Conversion Value (X)'] = w1 * 1000
+                df1.at[i,'Conversion Value (X)'] = float(w1) * 1000
             elif df1.at[i,'Alternative UOM'] == 'COW':
                 w3 = df11.at[i,'实际净重（公斤/箱）']
-                df1.at[i,'Conversion Value (X)'] = w3 * 1000
+                df1.at[i,'Conversion Value (X)'] = float(w3) * 1000
             elif df1.at[i,'Alternative UOM'] == 'NNW':
                 w2 = df11.at[i,'出厂单位标识净重（公斤/箱）']
-                df1.at[i,'Conversion Value (X)'] = w2 * 1000
+                df1.at[i,'Conversion Value (X)'] = float(w2) * 1000
             else:
                 pass
 
@@ -667,7 +669,7 @@ def GetSheet_fgI():
                 2. NPD08，外箱尺寸（长*宽*高，厘米）用 **
                 3. NPD08，MRP 控制者 用 000-
                 4. 双工厂生产，调整成2行
-                5. 看一下Valuation Class
+                5. 看一下Valuation Class,Remark
                 6. 分配code注意SH/SZ
                 如果OK，请输入123456继续。。。'''
     print(text1)
