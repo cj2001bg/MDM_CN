@@ -1,7 +1,7 @@
 # 内销FG整理
-# 8-11,新增7860及其库位：7860,7861,7862,7863,7960
+# 9-9,新增BC25整理
 
-from SFG_Tool import convert_value1
+# from SFG_Tool import convert_value1
 import pandas as pd
 from Field_Tools import *
 import sys
@@ -280,7 +280,7 @@ def option_value_II(df11,df1):
 
 # Z1UMM24,阶段II，生产工厂 + 非生产工厂 (w/o.财务视图)
 def copyline(df1):
-    # 复制阶段I，做操作后再append到fgmain
+    # 复制阶段I，做操作后再append到df1
     df21 = df1.copy(deep=True)   #存放初始生产工厂数据，不变
     
     # 处理生产工厂是0078的
@@ -621,6 +621,17 @@ def copy_value5(df11,df1):
     print('AccIII copy value Done')
     return df1     
 
+# BC25,copy值
+def copy_value6(df11,df6):
+    f_dict = {
+            'Material':'fg code',
+            'Brand category 2.5':'Brand Category 2.5 Code'
+            }
+    for k,v in f_dict.items():
+        df6[k] = df11[v]
+
+    print('BC2.5 copy value done.')
+
 # 生成模板
 def GenaTemp():
     writer = pd.ExcelWriter('FGHM_Upload.xlsx')
@@ -654,6 +665,14 @@ def GenaTemp():
     f5 = FGHanaFields()
     df5 = pd.DataFrame(columns=f5)
     df5.to_excel(writer,'Z_GL_MATERIAL')
+
+    # 生成BC2.5上传模板
+    # 获取BC2.5所有字段名
+    f6 = ['Material','Class','Brand category 2.5']
+    # 生成带标题的BC2.5的上传模板
+    df6 = pd.DataFrame(columns=f6)
+    # 后面有对应的writer.save()
+    df6.to_excel(writer,'BC25')
 
     writer.save()
     print('GenaTemp Done.')
@@ -694,6 +713,8 @@ def GetSheet_fgI():
     df3 = pd.read_excel('FGHM_Upload.xlsx',sheet_name='NPD',index_col=0,dtype=str)
     # 获得Z_GL_MATERIAL模板
     df4 = pd.read_excel('FGHM_Upload.xlsx',sheet_name='Z_GL_MATERIAL',index_col=0,dtype=str)
+    # 获得BC2.5模板
+    df6 = pd.read_excel('FGHM_Upload.xlsx',sheet_name='BC25',index_col=0,dtype=str)
 
     # 生成Z1UMM24数据================================
     # copy值
@@ -721,6 +742,12 @@ def GetSheet_fgI():
     # copy Class值
     df4 = copy_value4(df11,df4)
 
+    # 生成BC2.5数据================================
+    # copy值
+    copy_value6(df11,df6)
+    # 固定值
+    df6['Class'] = 'Z_BC25_MATERIAL'
+
     # 生成备忘录
     remark = {
             '1':'调整Size',
@@ -742,6 +769,7 @@ def GetSheet_fgI():
     df2.to_excel(writer,'ACC&CO')
     df3.to_excel(writer,'NPD')
     df4.to_excel(writer,'Z_GL_MATERIAL')
+    df6.to_excel(writer,'BC25')
      
     writer.save()
     print('Please check FGHM_Upload.xlsx')
@@ -777,6 +805,8 @@ def GetSheet_fgII():
     df3 = pd.read_excel('FGHM_Upload.xlsx',sheet_name='NPD',index_col=0,dtype=str)
     # 获得Z_GL_MATERIAL模板
     df4 = pd.read_excel('FGHM_Upload.xlsx',sheet_name='Z_GL_MATERIAL',index_col=0,dtype=str)
+    # 获得BC2.5模板
+    df6 = pd.read_excel('FGHM_Upload.xlsx',sheet_name='BC25',index_col=0,dtype=str)
     
     # 生成Z1UMM24数据================================
     # copy值
@@ -787,7 +817,7 @@ def GetSheet_fgII():
     convert_value1(df11,df1)
     # 阶段II，条件判断字段值
     option_value_II(df11,df1)
-    # 阶段II，阶段II，生产工厂 + 非生产工厂 (w/o.财务视图)
+    # 阶段II，生产工厂 + 非生产工厂 (w/o.财务视图)
     df1 = copyline(df1)
     # 阶段II，阶段II，RDC (w/o.财务视图)
     df1 = copyRDCLine(df1)
@@ -804,6 +834,12 @@ def GetSheet_fgII():
     # copy Class值
     # df4 = copy_value4(df11,df4)
 
+    # 生成BC2.5数据================================
+    # copy值
+    copy_value6(df11,df6)
+    # 固定值
+    df6['Class'] = 'Z_BC25_MATERIAL'
+
     # 生成Rrmakd工作表
     remark = {
             '1':'调整Size',
@@ -812,7 +848,8 @@ def GetSheet_fgII():
             '4':'双工厂的已拆分为2行，删除重复工厂&RDC,保留生产工厂行，注意产出方式应保留E的',
             '5':'移除Dele. Flag再做',
             '6':'UOM,number per pack',
-            '7':'UOM，C6 Barcode整理后，删除C6列'
+            '7':'UOM，C6 Barcode整理后，删除C6列',
+            '8':'全工厂生产：1.销售渠道0078&04,0023&04。2.库位0023的0001别忘记'
             }
     df44 = pd.Series(remark)
 
@@ -827,6 +864,7 @@ def GetSheet_fgII():
     df2.to_excel(writer,'UOM')
     df3.to_excel(writer,'NPD')
     # df4.to_excel(writer,'Z_GL_MATERIAL')
+    df6.to_excel(writer,'BC25')
 
     writer.save()
     print('Please check FGHM_Upload.xlsx')
