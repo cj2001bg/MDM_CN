@@ -1,7 +1,5 @@
 # 出口FG工具
-# BGT,SZ&SH,8-4,OK
-# NPD08,SZ&SH,8-4,OK
-# NPD15,SZ&SH,8-4,OK
+# 2021-10-28,NPD08/NPD15新增IMP的FG选项
 
 import pandas as pd
 from Field_Tools import *
@@ -558,6 +556,19 @@ def uom_value(df11,df4):
     print('PI&II, uom value done.')
     return df4
 
+
+# IMP调整================================
+def imp_value(df1,df2):
+    df1['Purchasing Group'] ='780'
+    df1['Procurement Type'] = 'F'
+    df1['BOM Usage'] = df1['Alternative BOM'] = df1['With Quantity Structure'] =''
+    df1['Valuation Class'] = '根据NPD’VC值' 
+    # 调整ACC&CO参数
+    df2['Valuation Class'] = df2['VC:Sales Order Stk'] = '根据NPD’VC值' 
+    df2['BOM Usage'] = df2['Alternative BOM'] = df2['With Quantity Structure'] =''
+
+    print('Imp FG value Done!')    
+
 # 生成模板
 def GenaTemp():
     writer = pd.ExcelWriter('FGEX_Upload.xlsx')
@@ -680,11 +691,19 @@ def GetSheet_fg():
         print('程序退出。')
         sys.exit()  
 
+    #选择是否进口FG =================================
+    text2 = '''请输入相应代码：FG/IMP：
+                FG: 本地自制FG
+                IMP: 进口FG
+                '''
+    print(text2)
+    res2 = input('请输入：')
+
     # 生成模板 =================================
     GenaTemp()
 
     # 获取数据源================================
-    df11 = pd.read_excel('DataSource.xlsx',sheet_name='FG',index_col=0,dtype=str)
+    df11 = pd.read_excel('DataSource.xlsx',sheet_name=res2,index_col=0,dtype=str)
 
     # 获取模板================================
     # Z1UMM24模板
@@ -720,6 +739,10 @@ def GetSheet_fg():
     df2 = convert_value2(df2)
     df2.sort_values(by='Material Code',inplace=True)
 
+    # IMP调整================================
+    if res2 == 'IMP':
+        imp_value(df1,df2)
+
     # 生成Z_GL_MATERIAL数据================================
     df3 = copy_value3(df11,df3)
 
@@ -735,7 +758,9 @@ def GetSheet_fg():
             '4':'NPD15,清除UOM中Delet?的内容',
             '5':'NPD08新增/NPD15移除Dele.Flag',
             '6':'维护Manu.Type',
-            '7':'分配code注意SH/SZ'
+            '7':'分配code注意SH/SZ',
+            '9':'IMP的FG没有生产工厂，Procurement Type=F, Purchasing Group=780,BOM Usage/Alternative BOM/With Quantity Structure空白',
+            '10':'IMP的FG，VC要调整'
             }
     df44 = pd.Series(remark)
 

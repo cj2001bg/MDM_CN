@@ -123,7 +123,7 @@ def GetSheet_bc():
     # BC3TXT模板
     df3 = pd.read_excel('BC_Upload.xlsx',sheet_name='BC3TXT',index_col=0,dtype=str)    
 
-    # 生成BC2数据================================
+    # 生成BC2.5数据================================
     # copy值
     copy_value(df11,df1)
     # 固定值

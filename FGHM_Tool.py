@@ -1,5 +1,5 @@
 # 内销FG整理
-# 9-9,新增BC25整理
+# 10-28,新增IMP进口FG模块
 
 # from SFG_Tool import convert_value1
 import pandas as pd
@@ -632,6 +632,26 @@ def copy_value6(df11,df6):
 
     print('BC2.5 copy value done.')
 
+# 阶段I,IMP调整
+def imp_value_I(df1,df2):
+    # 调整Z1UMM24参数
+    df1['Purchasing Group'] ='780'
+    df1['Procurement Type'] = 'F'
+    df1['BOM Usage'] = df1['Alternative BOM'] = df1['With Quantity Structure'] =''
+    # 调整ACC&CO参数
+    df2['BOM Usage'] = df2['Alternative BOM'] = df2['With Quantity Structure'] =''
+
+    print('Imp FG value Done!')
+
+# 阶段II，IMP调整================================
+def imp_value_II(df1):
+    # 调整Z1UMM24参数
+    df1['Purchasing Group'] ='780'
+    df1['Procurement Type'] = 'F'
+    df1['BOM Usage'] = df1['Alternative BOM'] = df1['With Quantity Structure'] =''
+
+    print('Imp FG value Done!')    
+
 # 生成模板
 def GenaTemp():
     writer = pd.ExcelWriter('FGHM_Upload.xlsx')
@@ -698,11 +718,19 @@ def GetSheet_fgI():
         print('程序退出。')
         sys.exit()
 
+    #选择是否进口FG =================================
+    text2 = '''请输入相应代码：FG/IMP：
+                FG: 本地自制FG
+                IMP: 进口FG
+                '''
+    print(text2)
+    res2 = input('请输入：')
+
     # 生成模板=================================
     GenaTemp()
 
     # 获取数据源================================
-    df11 = pd.read_excel('DataSource.xlsx',sheet_name='FG',index_col=0,dtype=str)
+    df11 = pd.read_excel('DataSource.xlsx',sheet_name=res2,index_col=0,dtype=str)
 
     # 获取模板================================
     # Z1UMM24模板
@@ -733,6 +761,10 @@ def GetSheet_fgI():
     fix_value2(df2)
     # 取值转换 
     convert_value2(df2)
+
+    # 阶段I，IMP调整================================
+    if res2 == 'IMP':
+        imp_value_I(df1,df2)
     
     # 生成Z_NPD_MATERIAL数据================================
     # copy NPD值
@@ -758,6 +790,7 @@ def GetSheet_fgI():
             '6':'维护Manufacture Type',
             '7':'NPD08的物料，创建后直接Dele.Flag',
             '8':'分配code注意SH/SZ',
+            '9':'IMP的FG没有生产工厂，Procurement Type=F, Purchasing Group=780,BOM Usage/Alternative BOM/With Quantity Structure空白'
             }
     df44 = pd.Series(remark)
 
@@ -789,12 +822,20 @@ def GetSheet_fgII():
         print('程序退出。')
         sys.exit()
 
+    #选择是否进口FG =================================
+    text2 = '''请输入相应代码：FG/IMP：
+                FG: 本地自制FG
+                IMP: 进口FG
+                '''
+    print(text2)
+    res2 = input('请输入：')
+
     # 生成模板 =================================
     GenaTemp()
 
 
     # 获取数据源================================
-    df11 = pd.read_excel('DataSource.xlsx',sheet_name='FG',index_col=0,dtype=str)
+    df11 = pd.read_excel('DataSource.xlsx',sheet_name=res2,index_col=0,dtype=str)
 
     # 获取模板================================
     # Z1UMM24模板
@@ -822,6 +863,10 @@ def GetSheet_fgII():
     # 阶段II，阶段II，RDC (w/o.财务视图)
     df1 = copyRDCLine(df1)
     df1.sort_values(by='Material Number',inplace=True)
+
+    # 阶段II，IMP调整================================
+    if res2 == 'IMP':
+        imp_value_II(df1)
     
     # 生成UOM数据================================
     df2 = fix_value3(df11,df2)
@@ -849,7 +894,8 @@ def GetSheet_fgII():
             '5':'移除Dele. Flag再做',
             '6':'UOM,number per pack',
             '7':'UOM，C6 Barcode整理后，删除C6列',
-            '8':'全工厂生产：1.销售渠道0078&04,0023&04。2.库位0023的0001别忘记'
+            '8':'全工厂生产：1.销售渠道0078&04,0023&04。2.库位0023的0001别忘记',
+            '9':'IMP的FG没有生产工厂，Procurement Type=F, Purchasing Group=780,BOM Usage/Alternative BOM/With Quantity Structure空白'
             }
     df44 = pd.Series(remark)
 

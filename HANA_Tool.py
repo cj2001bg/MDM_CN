@@ -1,6 +1,7 @@
 # 检查成品的HANA填写是否正确
 # 生成HMDM顺序的数据表，供复制黏贴
 # 描述不一样的要调整reference table
+# 2021-10-28,新增IMP的FG选项
 
 
 import pandas as pd
@@ -235,11 +236,19 @@ def GenaTemp():
 
 # 数据整理
 def GetSheet_fghana():
+    #选择是否进口FG =================================
+    text2 = '''请输入相应代码：FG/IMP：
+                FG: 本地自制FG
+                IMP: 进口FG
+                '''
+    print(text2)
+    res2 = input('请输入：')
+
     # 生成模板=================================
     GenaTemp()
 
     # 获取数据源================================
-    df11 = pd.read_excel('DataSource.xlsx',sheet_name='FG',index_col=0,dtype=str)
+    df11 = pd.read_excel('DataSource.xlsx',sheet_name=res2,index_col=0,dtype=str)
 
     # 获取模板================================
     df1 = pd.read_excel('HANA_Check.xlsx',sheet_name='HANAWeb',index_col=0,dtype=str)

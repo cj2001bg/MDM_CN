@@ -213,7 +213,7 @@ def copy_value2(df1,df2):
                 'Standard Price':'Standard Price',
                 'Future Price':'Future Price',
                 # 有效期仅在有Future Price时启用
-                # 'Future Price - Valid From (YYYYMMDD)':'Future Price - Valid From (YYYYMMDD)',
+                'Future Price - Valid From (YYYYMMDD)':'Future Price - Valid From (YYYYMMDD)',
                 'Lot Size for Product Costing':'Lot Size for Product Costing'
                 }
     for k,v in f_dict.items():
@@ -387,7 +387,7 @@ def GetSheet_pm():
     # 提示做预处理===========================
     text1 = '''
             1. 检查，物料号是否已在SAP中创建
-            2. '工厂1'复制到‘工厂’，双工厂手工拆分
+            2. '工厂1'复制到‘工厂’，双工厂手工拆分。全工厂的SZ，MRP控制者用000-SZ
             3. 检查，价格是否为1/1000,若都没有‘/’时，必须给其中1行加‘/’
             如果OK，请输入123继续。。。'''
     print(text1)
